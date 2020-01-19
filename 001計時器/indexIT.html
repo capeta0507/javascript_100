@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="counter">00:00:00.000</div>
+    <button type="button" id="counterBtn">計時</button>
+</body>
+
+<script>
+    var startTime = 0;
+var intervalId;
+
+function updateCounter() {
+  let currentTime = Date.now();
+  let msecond = ("0" + (currentTime - startTime) % 1000).substr(-3, 3);
+  let counter = Math.floor((currentTime - startTime)/1000);
+  let hour = ("0" + Math.floor(counter / 3600)).substr(-2, 2);
+  let minute = ("0" + Math.floor((counter % 3600) / 60)).substr(-2, 2);
+  let second = ("0" + Math.floor(counter % 60)).substr(-2, 2);
+  document.getElementById('counter').textContent = `${hour}:${minute}:${second}.${msecond}`;
+}
+
+var counting = false;
+var btn = document.getElementById('counterBtn');
+btn.addEventListener('click', function () {
+  if (counting) {
+    clearInterval(intervalId);
+  } else {
+    startTime = Date.now();
+    intervalId = setInterval(updateCounter, 15);
+  }
+  
+  counting = !counting;
+  btn.textContent = counting ? '停止' : '計時';
+});
+</script>
+</html>

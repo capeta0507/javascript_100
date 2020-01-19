@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<style>
+    .start{
+        width: 100px;
+        padding: 10px;
+        border: 1px solid black;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 20px;
+    }
+    .disable {
+        pointer-events: none;
+    }
+</style>
+<body>
+    <p id="demo">
+        <span id='myHour'>00</span> : <span id='myMinute'>00</span> : <span id='mySecond'>00</span>
+        <br />
+        <button id='myStart' class="start" onclick="mystart()">開始</button>
+        <br />
+        <button id='myStop' class="start" onclick="myStop()">停止</button>
+        <br />
+        <button id='myZero' class="start" onclick="myZero()">停止(歸0)</button>
+    </p>
+    <script>
+        var myTimer
+
+        // 秒
+        var second01 = 0;
+        var second02 = 0;
+        // 分
+        var minute01 = 0;
+        var minute02 = 0;
+        // 時
+        var hour01 = 0;
+        var hour02 = 0;
+        function mystart(){
+            myTimer = setInterval(function(){
+                second02 ++
+                if( second02>9 ){
+                    second01 ++
+                    second02 = 0
+                }
+                if(second01 > 5 ){
+                    minute02 ++
+                    second01 = 0
+                }
+                if( minute02 > 9 ){
+                    minute01 ++
+                    minute02 = 0
+                }
+                if(minute01 > 5 ){
+                    hour02 ++
+                    minute01 = 0
+                }
+                if(hour02 > 9 ){
+                    hour01 ++
+                    hour02 = 0
+                }
+                document.getElementById('mySecond').innerHTML = second01.toString() + second02.toString()
+                document.getElementById('myMinute').innerHTML = minute01.toString() + minute02.toString()
+                document.getElementById('myHour').innerHTML = hour01.toString() + hour02.toString()
+                // console.log(second01,second02)
+            }, 1000);
+            // document.getElementById('myStart').disabled = true
+            $('#myStart').attr('disabled', true)
+        }
+        function myStop(){
+            clearTimeout(myTimer)
+            $('#myStart').attr('disabled', false)
+        }
+        function myZero(){
+            // 秒
+            second01 = 0;
+            second02 = 0;
+            // 分
+            minute01 = 0;
+            minute02 = 0;
+            // 時
+            hour01 = 0;
+            hour02 = 0;
+            clearTimeout(myTimer)
+            document.getElementById('mySecond').innerHTML = second01.toString() + second02.toString()
+            document.getElementById('myMinute').innerHTML = minute01.toString() + minute02.toString()
+            document.getElementById('myHour').innerHTML = hour01.toString() + hour02.toString()
+            $('#myStart').attr('disabled', false)
+        }
+
+    </script>
+</body>
+</html>

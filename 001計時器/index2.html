@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<style>
+    .start{
+        width: 100px;
+        padding: 10px;
+        border: 1px solid black;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 20px;
+    }
+    .disable {
+        pointer-events: none;
+    }
+</style>
+<body>
+    <p id="demo">
+        <span id='myTimer'></span>
+        <br />
+        <button id='myStart' onclick="timestart()" class="start">開始</button>
+        <br />
+        <button id='myPause' onclick="timepause()" class="start">停止</button>
+        <br />
+        <button id='myStop' onclick="timestop()" class="start">停止(歸0)</button>
+    </p>
+    <script>
+        var s = 0;
+        var m = 0;
+        var h = 0;
+        var SS = '00';
+        var MM = '00';
+        var HH = '00';
+
+        var myTimerIntever
+
+        myShowTime();
+        document.getElementById('myStart').disabled = false
+        document.getElementById('myPause').disabled = true
+        document.getElementById('myStop').disabled = true
+
+        function timestart(){
+            document.getElementById('myStart').disabled = true
+            document.getElementById('myPause').disabled = false
+            document.getElementById('myStop').disabled = false
+            myTimerIntever = setInterval(()=>{
+                s++;
+                if (s>59){
+                    m++;
+                    s=0;
+                }
+                if(m>59){
+                    h++;
+                    m=0;
+                }
+
+                myShowTime();
+            },1000)
+        }
+
+        function timepause(){
+            document.getElementById('myStart').disabled = false
+            document.getElementById('myPause').disabled = true
+            document.getElementById('myStop').disabled = false
+            clearTimeout(myTimerIntever);
+            console.log('pause');
+        }
+
+        function timestop(){
+            document.getElementById('myStart').disabled = false
+            document.getElementById('myPause').disabled = true
+            document.getElementById('myStop').disabled = true
+            clearTimeout(myTimerIntever);
+            console.log('stop');
+            s=0;
+            m=0;
+            h=0
+            myShowTime();
+        }
+
+        function myShowTime(){
+            (s <= 9)?SS = '0'+ s:SS=s;
+            (m <= 9)?MM = '0'+ m:MM=m;
+            (h <= 9)?HH = '0'+ h:HH=h;
+            document.getElementById('myTimer').innerText = HH + ' : ' + MM + ' : ' + SS;
+        }
+        
+    </script>
+</body>
+</html>
